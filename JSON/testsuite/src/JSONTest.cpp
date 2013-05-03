@@ -41,6 +41,7 @@
 #include "Poco/JSON/Stringifier.h"
 #include "Poco/JSON/DefaultHandler.h"
 #include "Poco/JSON/Template.h"
+#include "Poco/JSON/Schema.h"
 
 #include "Poco/Path.h"
 #include "Poco/Environment.h"
@@ -985,6 +986,39 @@ void JSONTest::testUnicode()
 	assert(test.convert<std::string>() == original);
 }
 
+void JSONTest::testSchema()
+{
+	Parser parser;
+	Var result;
+
+	{
+		std::string json="{ \"name\" : \"string\", \"subobj\" : { \"title\" : \"optional string\"} }";
+
+		try
+		{
+			DefaultHandler handler;
+			parser.setHandler(&handler);
+			parser.parse(json);
+			result = handler.result();
+		}
+		catch(JSONException& jsone)
+		{
+			std::cout << jsone.message() << std::endl;
+			assert(false);
+		}
+
+		Schema schema;
+
+		assert(schema.add("", Object::Ptr(new Object))==false);
+
+		assert(schema.add("def", Object::Ptr(new Object))==false);
+
+		assert(schema.add("def", result.extract<Object::Ptr>())==true);
+
+		assert(schema.numSchemata()==1);
+	}
+}
+
 std::string JSONTest::getTestFilesPath(const std::string& type)
 {
 	std::ostringstream ostr;
@@ -1049,6 +1083,7 @@ CppUnit::Test* JSONTest::suite()
 	CppUnit_addTest(pSuite, JSONTest, testInvalidUnicodeJanssonFiles);
 	CppUnit_addTest(pSuite, JSONTest, testTemplate);
 	CppUnit_addTest(pSuite, JSONTest, testUnicode);
+	CppUnit_addTest(pSuite, JSONTest, testSchema);
 
 	return pSuite;
 }

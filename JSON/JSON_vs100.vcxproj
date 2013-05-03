@@ -275,6 +275,7 @@
     <ClInclude Include="include\Poco\JSON\Object.h" />
     <ClInclude Include="include\Poco\JSON\Parser.h" />
     <ClInclude Include="include\Poco\JSON\Query.h" />
+    <ClInclude Include="include\Poco\JSON\Schema.h" />
     <ClInclude Include="include\Poco\JSON\Stringifier.h" />
     <ClInclude Include="include\Poco\JSON\Template.h" />
     <ClInclude Include="include\Poco\JSON\TemplateCache.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Query.cpp" />
+    <ClCompile Include="src\Schema.cpp" />
     <ClCompile Include="src\Stringifier.cpp" />
     <ClCompile Include="src\Template.cpp" />
     <ClCompile Include="src\TemplateCache.cpp" />
