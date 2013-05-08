@@ -1029,11 +1029,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\SortedDirectoryIterator.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\String.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\NumericString.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\DirectoryIteratorStrategy.cpp"
 					>
 				</File>
 				<File
@@ -1245,7 +1253,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\Poco\SmallObjectAllocator.h"
+					RelativePath=".\include\Poco\SortedDirectoryIterator.h"
 					>
 				</File>
 				<File
@@ -5675,6 +5683,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\Poco\ListMap.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\Poco\Latin9Encoding.h"
 					>
 				</File>
@@ -5888,6 +5900,18 @@
 				</File>
 				<File
 					RelativePath=".\include\Poco\PriorityStrategy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Poco\RecursiveDirectoryIterator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Poco\RecursiveDirectoryIteratorImpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\Poco\DirectoryIteratorStrategy.h"
 					>
 				</File>
 			</Filter>

@@ -35,7 +35,6 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#include <sstream>
 
 #include "Poco/MongoDB/Document.h"
 #include "Poco/MongoDB/Binary.h"
@@ -43,16 +42,17 @@
 #include "Poco/MongoDB/Array.h"
 #include "Poco/MongoDB/RegularExpression.h"
 #include "Poco/MongoDB/JavaScriptCode.h"
+#include <sstream>
 
-namespace Poco
-{
-namespace MongoDB
-{
+
+namespace Poco {
+namespace MongoDB {
 
 
 Document::Document()
 {
 }
+
 
 Document::~Document()
 {
@@ -150,46 +150,38 @@ void Document::read(BinaryReader& reader)
 std::string Document::toString(int indent) const
 {
 	std::ostringstream oss;
-	oss << "{" << std::endl;
+
+	oss << '{';
+
+	if ( indent > 0 ) oss << std::endl;
+
+
 	for(ElementSet::const_iterator it = _elements.begin(); it != _elements.end(); ++it)
 	{
 		if ( it != _elements.begin() )
 		{
-			oss << ",";
-			if ( indent > 0 )
-			{
-				oss << std::endl;
-			}
+			oss << ',';
+			if ( indent > 0 ) oss << std::endl;
 		}
-		if ( indent > 0 )
-		{
-			for(int i = 0; i < indent; ++i)
-			{
-				oss << ' ';
-			}
-		}
-		oss << '"' << (*it)->name() << '"' << " : ";
-		if ( indent > 0 )
-		{
-			oss << (*it)->toString(indent + 2);
-		}
-		else
-		{
-			oss << (*it)->toString();
-		}
+
+		for(int i = 0; i < indent; ++i) oss << ' ';
+
+		oss << '"' << (*it)->name() << '"';
+		oss << (( indent > 0 ) ? " : " : ":");
+
+		oss << (*it)->toString(indent > 0 ? indent + 2 : 0);
 	}
 
 	if ( indent > 0 )
 	{
 		oss << std::endl;
-		indent -= 2;
-		for(int i = 0; i < indent; ++i)
-		{
-			oss << ' ';
-		}
+		if ( indent >= 2 ) indent -= 2;
+
+		for(int i = 0; i < indent; ++i) oss << ' ';
 	}
 
-	oss << "}" << std::endl;
+	oss << '}';
+
 	return oss.str();
 }
 
@@ -206,23 +198,19 @@ void Document::write(BinaryWriter& writer)
 		Poco::BinaryWriter tempWriter(sstream);
 		for(ElementSet::iterator it = _elements.begin(); it != _elements.end(); ++it)
 		{
-			tempWriter << (unsigned char) (*it)->type();
+			tempWriter << static_cast<unsigned char>((*it)->type());
 			BSONWriter(tempWriter).writeCString((*it)->name());
 			Element::Ptr element = *it;
 			element->write(tempWriter);
 		}
 		tempWriter.flush();
 		
-		Poco::Int32 len = 5 + sstream.tellp(); /* 5 = sizeof(len) + 0-byte */
+		Poco::Int32 len = static_cast<Poco::Int32>(5 + sstream.tellp()); /* 5 = sizeof(len) + 0-byte */
 		writer << len;
 		writer.writeRaw(sstream.str());
 	}
 	writer << '\0';
 }
 
-void Document::addElement(Element::Ptr element)
-{
-	_elements.insert(element);
-}
 
-}} // Namespace Poco::MongoDB
+} } // namespace Poco::MongoDB

@@ -35,12 +35,15 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#ifndef _MongoDB_InsertRequest_included
-#define _MongoDB_InsertRequest_included
+
+#ifndef MongoDB_InsertRequest_INCLUDED
+#define MongoDB_InsertRequest_INCLUDED
+
 
 #include "Poco/MongoDB/MongoDB.h"
 #include "Poco/MongoDB/RequestMessage.h"
 #include "Poco/MongoDB/Document.h"
+
 
 namespace Poco {
 namespace MongoDB {
@@ -57,7 +60,6 @@ public:
 		INSERT_CONTINUE_ON_ERROR = 1
 	} Flags;
 
-
 	InsertRequest(const std::string& collectionName, Flags flags = INSERT_NONE );
 		/// Constructor.
 		/// The full collection name is the concatenation of the database 
@@ -68,6 +70,10 @@ public:
 	virtual ~InsertRequest();
 		/// Destructor
 
+	Document& addNewDocument();
+		/// Adds a new document for insertion. A reference to the empty document is
+		/// returned. InsertRequest is the owner of the Document and will free it
+		/// on destruction.
 
 	Document::Vector& documents();
 		/// Returns the documents to insert into the database
@@ -76,15 +82,20 @@ protected:
 
 	void buildRequest(BinaryWriter& writer);
 
-
 private:
 
 	Int32 _flags;
-
 	std::string _fullCollectionName;
-
 	Document::Vector _documents;
 };
+
+
+inline Document& InsertRequest::addNewDocument()
+{
+	Document::Ptr doc = new Document();
+	_documents.push_back(doc);
+	return *doc;
+}
 
 
 inline Document::Vector& InsertRequest::documents()
@@ -93,6 +104,7 @@ inline Document::Vector& InsertRequest::documents()
 }
 
 
-}} // Namespace Poco::MongoDB
+} } // namespace Poco::MongoDB
 
-#endif //_MongoDB_InsertRequest_included
+
+#endif //MongoDB_InsertRequest_INCLUDED

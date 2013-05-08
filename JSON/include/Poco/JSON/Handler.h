@@ -41,6 +41,7 @@
 
 
 #include "Poco/JSON/JSON.h"
+#include "Poco/SharedPtr.h"
 #include "Poco/Dynamic/Var.h"
 
 
@@ -51,6 +52,14 @@ namespace JSON {
 class JSON_API Handler
 {
 public:
+	typedef SharedPtr<Handler> Ptr;
+
+	Handler();
+		/// Constructor;
+	
+	virtual ~Handler();
+		/// Destructor
+
 	virtual void startObject() = 0;
 		/// The parser has read a {, meaning a new object will be read
 
@@ -74,7 +83,7 @@ public:
 
 	virtual void value(unsigned v) = 0;
 		/// An unsigned value is read. This will only be triggered if the
-        /// value cannot fit into a signed int.
+		/// value cannot fit into a signed int.
 
 #if defined(POCO_HAVE_INT64)
 	virtual void value(Int64 v) = 0;
@@ -82,7 +91,7 @@ public:
 
 	virtual void value(UInt64 v) = 0;
 		/// An unsigned 64-bit integer value is read. This will only be
-        /// triggered if the value cannot fit into a signed 64-bit integer.
+		/// triggered if the value cannot fit into a signed 64-bit integer.
 #endif
 
 	virtual void value(const std::string& value) = 0;
@@ -94,12 +103,12 @@ public:
 	virtual void value(bool b) = 0;
 		/// A boolean value is read
 
-protected:
+	virtual void comma();
+		/// A comma is read
 
-	virtual ~Handler();
-		/// Destructor
-
-private:
+	virtual Dynamic::Var result() const;
+		/// Returns the result of the parser (an object, array or string),
+		/// empty Var if there is no result.
 };
 
 

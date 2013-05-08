@@ -43,8 +43,9 @@
 // Define to enable Windows Unicode (UTF-8) support
 #define POCO_WIN32_UTF8
 
+
 // Define to enable C++11 support
-//#define POCO_ENABLE_CPP11
+//	#define POCO_ENABLE_CPP11
 
 
 // Define to disable implicit linking
@@ -98,15 +99,13 @@
 // defined, Any and Dynamic::Var (and similar optimization
 // candidates) will be auto-allocated on the stack in 
 // cases when value holder fits into POCO_SMALL_OBJECT_SIZE
-// (see Poco/Types.h for default values).
-// #define POCO_NO_SOO
+// (see below).
+#define POCO_NO_SOO
 
 
-// Small object size in bytes. Where applicable (e.g.
-// SmallObjectAllocator<char*> specialization, Any, Var, etc)
+// Small object size in bytes. When assigned to Any or Var,
 // objects longer than this value will be alocated on the heap.
-// See Poco/SmallObjectAllocator.h for usage of this value.
-#if !defined(POCO_SMALL_OBJECT_SIZE)
+#if !defined(POCO_SMALL_OBJECT_SIZE) && !defined(POCO_NO_SOO)
 	#define POCO_SMALL_OBJECT_SIZE 32
 #endif
 

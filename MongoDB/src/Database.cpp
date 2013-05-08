@@ -35,12 +35,12 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
+
 #include "Poco/MongoDB/Database.h"
 
-namespace Poco
-{
-namespace MongoDB
-{
+
+namespace Poco {
+namespace MongoDB {
 
 
 Database::Database( const std::string& db) : _dbname(db)
@@ -69,13 +69,51 @@ double Database::count(Connection& connection, const std::string& collectionName
 }
 
 
+Poco::MongoDB::Document::Ptr Database::ensureIndex(Connection& connection, const std::string& collection, const std::string& indexName, Poco::MongoDB::Document::Ptr keys, bool unique, bool background, int version, int ttl)
+{
+	Poco::MongoDB::Document::Ptr index = new Poco::MongoDB::Document();
+	index->add("ns", _dbname + ".players");
+	index->add("name", indexName);
+	index->add("key", keys);
+
+	if ( version > 0 )
+	{
+		index->add("version", version);
+	}
+
+	if ( unique )
+	{
+		index->add("unique", true);
+	}
+
+	if ( background )
+	{
+		index->add("background", true);
+	}
+
+	if ( ttl > 0 )
+	{
+		index->add("expireAfterSeconds", ttl);
+	}
+
+	Poco::SharedPtr<Poco::MongoDB::InsertRequest> insertRequest = createInsertRequest("system.indexes");
+	insertRequest->documents().push_back(index);
+	connection.sendRequest(*insertRequest);
+
+	insertRequest->documents().push_back(index);
+	connection.sendRequest(*insertRequest);
+
+	return getLastErrorDoc(connection);
+}
+
+
 Document::Ptr Database::getLastErrorDoc(Connection& connection) const
 {
 	Document::Ptr errorDoc;
 
 	Poco::SharedPtr<Poco::MongoDB::QueryRequest> request = createQueryRequest("$cmd");
 	request->setNumberToReturn(1);
-	request->query().add("getLastError", 1);
+	request->selector().add("getLastError", 1);
 
 	Poco::MongoDB::ResponseMessage response;
 	connection.sendRequest(*request, response);
@@ -87,6 +125,7 @@ Document::Ptr Database::getLastErrorDoc(Connection& connection) const
 
 	return errorDoc;
 }
+
 
 std::string Database::getLastError(Connection& connection) const
 {
@@ -100,25 +139,13 @@ std::string Database::getLastError(Connection& connection) const
 }
 
 
-Poco::SharedPtr<Poco::MongoDB::QueryRequest> Database::createQueryRequest(const std::string& collectionName) const
-{
-	return new Poco::MongoDB::QueryRequest(_dbname + '.' + collectionName);
-}
-
-
 Poco::SharedPtr<Poco::MongoDB::QueryRequest> Database::createCountRequest(const std::string& collectionName) const
 {
 	Poco::SharedPtr<Poco::MongoDB::QueryRequest> request = createQueryRequest("$cmd");
 	request->setNumberToReturn(1);
-	request->query().add("count", collectionName);
+	request->selector().add("count", collectionName);
 	return request;
 }
 
 
-Poco::SharedPtr<Poco::MongoDB::InsertRequest> Database::createInsertRequest(const std::string& collectionName) const
-{
-	return new Poco::MongoDB::InsertRequest(_dbname + '.' + collectionName);
-}
-
-
-}} // Namespace Poco::MongoDB
+} } // namespace Poco::MongoDB

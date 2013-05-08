@@ -42,8 +42,24 @@ namespace Poco {
 namespace JSON {
 
 
+Handler::Handler()
+{
+}
+
+
 Handler::~Handler()
 {
+}
+
+
+void Handler::comma()
+{
+}
+
+
+Dynamic::Var Handler::result() const
+{
+	return Dynamic::Var();
 }
 
 

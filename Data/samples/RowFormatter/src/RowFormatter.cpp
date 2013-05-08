@@ -103,6 +103,9 @@ public:
 
 int main(int argc, char** argv)
 {
+	// register SQLite connector
+	Poco::Data::SQLite::Connector::registerConnector();
+	
 	// create a session
 	Session session("SQLite", "sample.db");
 
@@ -129,8 +132,8 @@ int main(int argc, char** argv)
 	std::cout << rs << std::endl;
 
 	// Note: The code above is divided into individual steps for clarity purpose.
-	// The four lines can be reduced to the following single line of code:
-	std::cout << RecordSet(session, "SELECT * FROM Simpsons", new HTMLTableFormatter);
+	// The four lines can be reduced to the following single line:
+	std::cout << RecordSet(session, "SELECT * FROM Simpsons", HTMLTableFormatter());
 
 	// simple formatting example (uses the default SimpleRowFormatter provided by framework)
 	std::cout << std::endl << "Simple formatting:" << std::endl << std::endl;

@@ -897,6 +897,12 @@
     <ClCompile Include="src\NumericString.cpp">
       <Filter>Core\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SortedDirectoryIterator.cpp">
+      <Filter>Filesystem\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectoryIteratorStrategy.cpp">
+      <Filter>Filesystem\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Poco\Any.h">
@@ -1853,11 +1859,23 @@
     <ClInclude Include="include\Poco\Base32Encoder.h">
       <Filter>Streams\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Poco\SmallObjectAllocator.h">
-      <Filter>Core\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Poco\Optional.h">
       <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\ListMap.h">
+      <Filter>Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\RecursiveDirectoryIterator.h">
+      <Filter>Filesystem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\RecursiveDirectoryIteratorImpl.h">
+      <Filter>Filesystem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Poco\SortedDirectoryIterator.h">
+      <Filter>Filesystem\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\poco\DirectoryIteratorStrategy.h">
+      <Filter>Filesystem\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -90,6 +90,7 @@ class Data_API RowFormatter
 	///
 {
 public:
+	typedef SharedPtr<RowFormatter>              Ptr;
 	typedef std::vector<std::string>             NameVec;
 	typedef SharedPtr<std::vector<std::string> > NameVecPtr;
 	typedef std::vector<Poco::Dynamic::Var>      ValueVec;
@@ -236,18 +237,14 @@ namespace Keywords {
 
 
 template <typename T>
-inline T* format(const T& formatter)
+inline RowFormatter::Ptr format(const T& formatter)
 	/// Utility function used to pass formatter to the statement.
-	/// Statement takes the ownership of the formatter.
 {
 	return new T(formatter);
 }
 
 
 } // namespace Keywords
-
-
-typedef SharedPtr<RowFormatter> RowFormatterPtr;
 
 
 } } // namespace Poco::Data
