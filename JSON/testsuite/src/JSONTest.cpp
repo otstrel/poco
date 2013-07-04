@@ -1308,7 +1308,6 @@ void JSONTest::testUnicode()
 	assert(test.convert<std::string>() == original);
 }
 
-<<<<<<< HEAD
 void JSONTest::testSchema()
 {
 	Parser parser;
@@ -1319,10 +1318,7 @@ void JSONTest::testSchema()
 
 		try
 		{
-			DefaultHandler handler;
-			parser.setHandler(&handler);
-			parser.parse(json);
-			result = handler.result();
+			result = parser.parse(json);
 		}
 		catch(JSONException& jsone)
 		{
@@ -1341,8 +1337,6 @@ void JSONTest::testSchema()
 		assert(schema.numSchemata()==1);
 	}
 }
-=======
->>>>>>> develop
 
 std::string JSONTest::getTestFilesPath(const std::string& type)
 {
