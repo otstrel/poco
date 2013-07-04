@@ -64,7 +64,7 @@ public:
 	typedef Row*                            pointer;
 	typedef Row&                            reference;
 
-	static const int POSITION_END;
+	static const std::size_t POSITION_END;
 		/// End position indicator.
 
 	RowIterator(RecordSet* pRecordSet, bool positionEnd);
@@ -159,7 +159,6 @@ inline bool RowIterator::operator != (const RowIterator& other) const
 
 namespace std
 {
-	using std::swap;
 	template<>
 	inline void swap<Poco::Data::RowIterator>(Poco::Data::RowIterator& s1, 
 		Poco::Data::RowIterator& s2)

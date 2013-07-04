@@ -81,7 +81,7 @@ class Data_API Statement
 	/// However, calling executAsync() on a synchronous statement shall execute 
 	/// asynchronously but without altering the underlying statement's synchronous nature.
 	///
-	/// Once asyncronous, a statement can be reverted back to synchronous state in two ways:
+	/// Once asynchronous, a statement can be reverted back to synchronous state in two ways:
 	/// 
 	///   1) By calling setAsync(false)
 	///   2) By means of 'sync' or 'reset' manipulators
@@ -820,7 +820,6 @@ inline void swap(Statement& s1, Statement& s2)
 
 namespace std
 {
-	using std::swap;
 	template<>
 	inline void swap<Poco::Data::Statement>(Poco::Data::Statement& s1, 
 		Poco::Data::Statement& s2)

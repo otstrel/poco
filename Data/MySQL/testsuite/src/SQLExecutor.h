@@ -100,11 +100,12 @@ public:
 	void singleSelect();
 	void emptyDB();
 
-	void blob(int bigSize = 1024);
+	void blob(unsigned int bigSize = ~0);
 	void blobStmt();
 	void dateTime();
 	void date();
 	void time();
+	void unsignedInts();
 	void floats();
 	void doubles();
 	void tuples();
