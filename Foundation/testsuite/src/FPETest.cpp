@@ -77,11 +77,11 @@ void FPETest::testClassify()
 
 
 #if defined(__HP_aCC)
-#pragma OPTIMIZE OFF
+	#pragma OPTIMIZE OFF
 #elif defined(_MSC_VER)
-#pragma optimize("", off)
-#elif defined(__APPLE__)
-#pragma GCC optimization_level 0
+	#pragma optimize("", off)
+#elif defined(__APPLE__) && defined(POCO_COMPILER_GCC)
+	#pragma GCC optimization_level 0
 #endif
 
 
@@ -104,9 +104,9 @@ void FPETest::testFlags()
 	// some compilers are intelligent enough to optimize the calculations below away.
 	// unfortunately this leads to a failing test, so we have to trick out the
 	// compiler's optimizer a little bit by doing something with the results.
-	double a = 10;
-	double b = 0;
-	double c = div(a, b);
+	volatile double a = 10;
+	volatile double b = 0;
+	volatile double c = div(a, b);
 
 	assert (FPE::isFlag(FPE::FP_DIVIDE_BY_ZERO));
 	assert (FPE::isInfinite(c)); 
@@ -128,17 +128,17 @@ void FPETest::testFlags()
 
 
 #if defined(__HP_aCC)
-#pragma OPTIMIZE ON
+	#pragma OPTIMIZE ON
 #elif defined(_MSC_VER)
-#pragma optimize("", on)
-#elif defined(__APPLE__)
-#pragma GCC optimization_level reset
+	#pragma optimize("", on)
+#elif defined(__APPLE__) && defined(POCO_COMPILER_GCC)
+	#pragma GCC optimization_level reset
 #endif
 
 
 void FPETest::testRound()
 {
-	#if !defined(__osf__) && !defined(__VMS)
+#if !defined(__osf__) && !defined(__VMS)
 	FPE::setRoundingMode(FPE::FP_ROUND_TONEAREST);			
 	assert (FPE::getRoundingMode() == FPE::FP_ROUND_TONEAREST);
 	{
@@ -146,7 +146,7 @@ void FPETest::testRound()
 		assert (FPE::getRoundingMode() == FPE::FP_ROUND_TOWARDZERO);
 	}
 	assert (FPE::getRoundingMode() == FPE::FP_ROUND_TONEAREST);	
-	#endif
+#endif
 }
 
 

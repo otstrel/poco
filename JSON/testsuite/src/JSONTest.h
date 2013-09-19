@@ -75,6 +75,7 @@ public:
 	void testDoubleElement();
 	void testOptValue();
 	void testQuery();
+	void testComment();
 	void testPrintHandler();
 	void testStringify();
 	void testStringifyPreserveOrder();
@@ -86,6 +87,7 @@ public:
 	void testUnicode(); 
 	void testInvalidUnicodeJanssonFiles();
 	void testSchema();
+	void testSmallBuffer();
 
 	void setUp();
 	void tearDown();

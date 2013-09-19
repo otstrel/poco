@@ -81,6 +81,14 @@ void SessionHandle::options(mysql_option opt, bool b)
 		throw ConnectionException("mysql_options error", _pHandle);
 }
 
+
+void SessionHandle::options(mysql_option opt, const char* c)
+{
+	if (mysql_options(_pHandle, opt, c) != 0)
+		throw ConnectionException("mysql_options error", _pHandle);
+}
+
+
 void SessionHandle::options(mysql_option opt, unsigned int i)
 {
 #if (POCO_MYSQL_VERSION_NUMBER < 0x050108)
@@ -95,8 +103,13 @@ void SessionHandle::options(mysql_option opt, unsigned int i)
 
 void SessionHandle::connect(const char* host, const char* user, const char* password, const char* db, unsigned int port)
 {
+#ifdef HAVE_MYSQL_REAL_CONNECT
 	if (!mysql_real_connect(_pHandle, host, user, password, db, port, 0, 0))
 		throw ConnectionFailedException(mysql_error(_pHandle));
+#else
+	if (!mysql_connect(_pHandle, host, user, password))
+		throw ConnectionFailedException(mysql_error(_pHandle))
+#endif
 }
 
 

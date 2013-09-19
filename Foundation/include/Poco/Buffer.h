@@ -142,7 +142,7 @@ public:
 		{
 			T* ptr = new T[newCapacity];
 			if (preserveContent)
-				std::memcpy(ptr, _ptr, _capacity);
+				std::memcpy(ptr, _ptr, _used);
 
 			delete [] _ptr;
 			_ptr = ptr;
@@ -150,6 +150,35 @@ public:
 		}
 		
 		_used = newCapacity;
+	}
+	
+	void setCapacity(std::size_t newCapacity, bool preserveContent = true)
+		/// Sets the buffer capacity. If preserveContent is true,
+		/// the content of the old buffer is copied over to the
+		/// new buffer. The new capacity can be larger or smaller than
+		/// the current one; size will be set to the new capacity only if 
+		/// new capacity is smaller than the current size, otherwise it will
+		/// remain intact.
+		/// 
+		/// Buffers only wrapping externally owned storage can not be 
+		/// resized. If resize is attempted on those, IllegalAccessException
+		/// is thrown.
+	{
+		if (!_ownMem)
+			throw Poco::InvalidAccessException("Cannot resize buffer which does not own its storage.");
+
+		if (newCapacity != _capacity)
+		{
+			T* ptr = new T[newCapacity];
+			if (preserveContent)
+				std::memcpy(ptr, _ptr, _used < newCapacity ? _used : newCapacity);
+
+			delete [] _ptr;
+			_ptr = ptr;
+			_capacity = newCapacity;
+
+			if (newCapacity < _used) _used = newCapacity;
+		}
 	}
 
 	void assign(const T* buf, std::size_t sz)
@@ -166,9 +195,15 @@ public:
 		/// Resizes this buffer and appends the argument buffer.
 	{
 		if (0 == sz) return;
-		std::size_t oldSize = _used;
 		resize(_used + sz, true);
-		std::memcpy(_ptr + oldSize, buf, sz);
+		std::memcpy(_ptr + _used - sz, buf, sz);
+	}
+
+	void append(T val)
+		/// Resizes this buffer by one element and appends the argument value.
+	{
+		resize(_used + 1, true);
+		_ptr[_used - 1] = val;
 	}
 
 	void append(const Buffer& buf)

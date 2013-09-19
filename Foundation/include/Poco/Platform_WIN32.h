@@ -48,55 +48,55 @@
 #if defined(_WIN32_WINNT_WIN8)
 	//Windows 8	_WIN32_WINNT_WIN8 (0x0602)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WIN8
 #elif defined(_WIN32_WINNT_WIN7)
 	//Windows 7	_WIN32_WINNT_WIN7 (0x0601)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WIN7
 #elif defined (_WIN32_WINNT_WS08)
 	//Windows Server 2008 _WIN32_WINNT_WS08 (0x0600)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WS08
 #elif defined (_WIN32_WINNT_VISTA)
 	//Windows Vista	_WIN32_WINNT_VISTA (0x0600)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_VISTA
 #elif defined (_WIN32_WINNT_LONGHORN)
 	//Windows Vista	and server 2008 Development _WIN32_WINNT_LONGHORN (0x0600)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_LONGHORN
 #elif defined (_WIN32_WINNT_WS03)
 	//Windows Server 2003 with SP1,
 	//Windows XP with SP2 _WIN32_WINNT_WS03 (0x0502)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WS03
 #elif defined (_WIN32_WINNT_WINXP)
 	//Windows Server 2003, Windows XP _WIN32_WINNT_WINXP (0x0501)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #elif defined (_WIN32_WINNT_WIN2K)
 	//Windows 2000 _WIN32_WINNT_WIN2K (0x0500)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT _WIN32_WINNT_WIN2K
 #elif defined (WINVER)
 	#ifdef _WIN32_WINNT
-		#undef  _WIN32_WINNT
+		#undef _WIN32_WINNT
 	#endif
 	#define _WIN32_WINNT WINVER
 #endif
@@ -132,8 +132,8 @@
 #elif (_MSC_VER >= 1600) && (_MSC_VER < 1700) // Visual Studio 2010, MSVC++ 10.0
 	#define POCO_MSVS_VERSION 2010
 	#define POCO_MSVC_VERSION 100
-#elif (_MSC_VER >= 1700) && (_MSC_VER < 1800) // Visual Studio 2011, MSVC++ 11.0
-	#define POCO_MSVS_VERSION 2011
+#elif (_MSC_VER >= 1700) && (_MSC_VER < 1800) // Visual Studio 2012, MSVC++ 11.0
+	#define POCO_MSVS_VERSION 2012
 	#define POCO_MSVC_VERSION 110
 #endif
 
@@ -160,7 +160,7 @@
 
 
 // Enable C++11 support for VS 2010 and newer
-#if defined(_MSC_VER) && (_MSC_VER >= 1600) && !defined(POCO_ENABLE_CPP11)
+#if defined(_MSC_VER) && (_MSC_VER >= 1700) && !defined(POCO_ENABLE_CPP11)
 	#define POCO_ENABLE_CPP11
 #endif
 

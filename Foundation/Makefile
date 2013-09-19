@@ -31,12 +31,11 @@ objects = ArchiveStrategy Ascii ASCIIEncoding AsyncChannel \
 	ThreadPool ThreadTarget ActiveDispatcher Timer Timespan Timestamp Timezone Token URI \
 	FileStreamFactory URIStreamFactory URIStreamOpener UTF32Encoding UTF16Encoding UTF8Encoding UTF8String \
 	Unicode UnicodeConverter Windows1250Encoding Windows1251Encoding Windows1252Encoding \
-	UUID UUIDGenerator Void Var VarHolder Format Pipe PipeImpl PipeStream SharedMemory \
+	UUID UUIDGenerator Void Var VarHolder VarIterator Format Pipe PipeImpl PipeStream SharedMemory \
 	MemoryStream FileStream AtomicCounter 
 
 zlib_objects = adler32 compress crc32 deflate \
-	infback inffast inflate inftrees trees zutil \
-	gzclose gzlib gzread gzwrite uncompr
+	infback inffast inflate inftrees trees zutil
 
 pcre_objects = pcre_chartables pcre_compile pcre_globals pcre_maketables \
 	pcre_study pcre_try_flipped pcre_valid_utf8 \

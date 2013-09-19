@@ -53,6 +53,7 @@
 
 #include <mysql.h>
 #include <iostream>
+#include <limits>
 
 
 using namespace Poco::Data;
@@ -494,6 +495,29 @@ void SQLExecutor::insertSingleBulk()
 	catch(ConnectionException& ce){ std::cout << ce.displayText() << std::endl; fail (funct); }
 	catch(StatementException& se){ std::cout << se.displayText() << std::endl; fail (funct); }
 	assert (count == ((0+99)*100/2));
+}
+
+
+void SQLExecutor::unsignedInts()
+{
+	std::string funct = "unsignedInts()";
+	Poco::UInt32 data = std::numeric_limits<Poco::UInt32>::max();
+	Poco::UInt32 ret = 0;
+
+	try { *_pSession << "INSERT INTO Strings VALUES (?)", use(data), now; }
+	catch(ConnectionException& ce){ std::cout << ce.displayText() << std::endl; fail (funct); }
+	catch(StatementException& se){ std::cout << se.displayText() << std::endl; fail (funct); }
+
+	int count = 0;
+	try { *_pSession << "SELECT COUNT(*) FROM Strings", into(count), now; }
+	catch(ConnectionException& ce){ std::cout << ce.displayText() << std::endl; fail (funct); }
+	catch(StatementException& se){ std::cout << se.displayText() << std::endl; fail (funct); }
+	assert (count == 1);
+
+	try { *_pSession << "SELECT str FROM Strings", into(ret), now; }
+	catch(ConnectionException& ce){ std::cout << ce.displayText() << std::endl; fail (funct); }
+	catch(StatementException& se){ std::cout << se.displayText() << std::endl; fail (funct); }
+	assert (ret == data);
 }
 
 
@@ -1339,7 +1363,7 @@ void SQLExecutor::time()
 }
 
 
-void SQLExecutor::blob(int bigSize)
+void SQLExecutor::blob(unsigned int bigSize)
 {
 	std::string funct = "blob()";
 	std::string lastName("lastname");

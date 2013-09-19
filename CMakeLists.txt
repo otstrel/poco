@@ -7,11 +7,11 @@ PROJECT(Poco)
 
 cmake_minimum_required(VERSION 2.8.0)
 
-set(SHARED_LIBRARY_VERSION "21")
+set(SHARED_LIBRARY_VERSION "22")
 
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "5")
-set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_PACKAGE_VERSION_PATCH "2")
 SET(COMPLETE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 SET(RELEASE_NAME "Unstable-trunk")
 SET(PROJECT_VERSION ${COMPLETE_VERSION})
@@ -51,13 +51,9 @@ endif ()
 #    * Release (CMAKE_C_FLAGS_RELEASE or CMAKE_CXX_FLAGS_RELEASE)
 #    * RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #    * MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  message(STATUS "Debug output enabled")
-  set(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Set debug library postfix" FORCE)
-else ()
-  message(STATUS "Optimized output enabled")
-  set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Set debug library postfix" FORCE)
-endif ()
+
+# For Debug build types, append a "d" to the library names.
+set(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Set debug library postfix" FORCE)
 
 option(ENABLE_TESTS
   "Set to OFF|ON (default is OFF) to control build of POCO tests & samples" OFF)

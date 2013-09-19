@@ -128,6 +128,11 @@
 #endif
 
 
+#ifndef POCO_OS_FAMILY_UNIX
+	#define GCC_DIAG_OFF(x)
+	#define GCC_DIAG_ON(x)
+#endif
+
 //
 // Hardware Architecture and Byte Order
 //
@@ -145,6 +150,7 @@
 #define POCO_ARCH_S390    0x0c
 #define POCO_ARCH_SH      0x0d
 #define POCO_ARCH_NIOS2   0x0e
+#define POCO_ARCH_AARCH64 0x0f
 
 
 #if defined(__ALPHA) || defined(__alpha) || defined(__alpha__) || defined(_M_ALPHA)
@@ -187,6 +193,15 @@
 	#else
 		#define POCO_ARCH_LITTLE_ENDIAN 1
 	#endif
+#elif defined(__arm64__) || defined(__arm64) 
+	#define POCO_ARCH POCO_ARCH_ARM64
+	#if defined(__ARMEB__)
+		#define POCO_ARCH_BIG_ENDIAN 1
+	#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+		#define POCO_ARCH_BIG_ENDIAN 1
+	#else
+		#define POCO_ARCH_LITTLE_ENDIAN 1
+	#endif
 #elif defined(__m68k__)
 	#define POCO_ARCH POCO_ARCH_M68K
 	#define POCO_ARCH_BIG_ENDIAN 1
@@ -207,7 +222,12 @@
 	#else
 		#define POCO_ARCH_BIG_ENDIAN 1
 	#endif
-
+#elif defined(__AARCH64EL__)
+	#define POCO_ARCH POCO_ARCH_AARCH64
+	#define POCO_ARCH_LITTLE_ENDIAN 1
+#elif defined(__AARCH64EB__)
+	#define POCO_ARCH POCO_ARCH_AARCH64
+	#define POCO_ARCH_BIG_ENDIAN 1
 #endif
 
 

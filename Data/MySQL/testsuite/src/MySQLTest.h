@@ -99,6 +99,7 @@ public:
 	void testBLOB();
 	void testBLOBStmt();
 
+	void testUnsignedInts();
 	void testFloat();
 	void testDouble();
 
@@ -134,11 +135,14 @@ private:
 	void recreatePersonTimeTable();
 	void recreateStringsTable();
 	void recreateIntsTable();
+	void recreateUnsignedIntsTable();
 	void recreateFloatsTable();
 	void recreateTuplesTable();
 	void recreateVectorsTable();
 	void recreateNullableIntTable();
 	void recreateNullableStringTable();
+
+	static void dbInfo(Poco::Data::Session& session);
 
 	static std::string _dbConnString;
 	static Poco::SharedPtr<Poco::Data::Session> _pSession;

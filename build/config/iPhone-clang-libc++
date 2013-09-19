@@ -1,7 +1,7 @@
 #
-# $Id: //poco/1.4/build/config/iPhone#3 $
+# $Id: //poco/1.4/build/config/iPhone-clang-libc++#2 $
 #
-# iPhone
+# iPhone-clang-libc++
 #
 # Build settings for iPhone OS, using Apple's iPhone SDK
 # 
@@ -31,7 +31,10 @@ IPHONE_SDK_VERSION_MIN ?= $(patsubst %.sdk,%,$(patsubst $(IPHONE_SDK_ROOT_DIR)%,
 POCO_TARGET_OSNAME     ?= $(IPHONE_SDK)
 POCO_TARGET_OSARCH     ?= armv7
 TOOL_PREFIX            ?= $(shell xcode-select -print-path)/Platforms/$(IPHONE_SDK).platform/Developer/usr/bin
-OSFLAGS                ?= -arch $(POCO_TARGET_OSARCH) -isysroot $(IPHONE_SDK_BASE) -mthumb -miphoneos-version-min=$(IPHONE_SDK_VERSION_MIN)
+ifneq ($(POCO_TARGET_OSARCH),arm64)
+THUMB = -mthumb
+endif
+OSFLAGS                ?= -arch $(POCO_TARGET_OSARCH) -isysroot $(IPHONE_SDK_BASE) $(THUMB) -miphoneos-version-min=$(IPHONE_SDK_VERSION_MIN)
 
 #
 # Tools

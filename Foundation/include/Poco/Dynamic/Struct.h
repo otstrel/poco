@@ -43,6 +43,7 @@
 #include "Poco/Foundation.h"
 #include "Poco/Dynamic/Var.h"
 #include "Poco/Dynamic/VarHolder.h"
+#include "Poco/SharedPtr.h"
 #include <map>
 #include <set>
 
@@ -63,6 +64,7 @@ public:
 	typedef typename Struct<K>::Data::value_type ValueType;
 	typedef typename Struct<K>::Data::size_type SizeType;
 	typedef typename std::pair<typename Struct<K>::Iterator, bool> InsRetVal;
+	typedef typename Poco::SharedPtr<Struct<K> > Ptr;
 
 	Struct(): _data()
 		/// Creates an empty Struct
@@ -148,7 +150,8 @@ public:
 		return _data.begin();
 	}
 
-	inline InsRetVal insert(const K& key, const Var& value)
+	template <typename T>
+	inline InsRetVal insert(const K& key, const T& value)
 		/// Inserts a <name, Var> pair into the Struct,
 		/// returns a pair containing the iterator and a boolean which
 		/// indicates success or not (is true, when insert succeeded, false,
@@ -156,7 +159,7 @@ public:
 		/// points to that other element)
 	{
 		// fix: SunPro C++ is silly ...
-		ValueType valueType(key,value);
+		ValueType valueType(key, value);
 		return insert(valueType);
 	}
 
@@ -233,62 +236,62 @@ public:
 		return typeid(Struct<std::string>);
 	}
 
-	void convert(Int8& val) const
+	void convert(Int8&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int8");
 	}
 
-	void convert(Int16& val) const
+	void convert(Int16&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int16");
 	}
 	
-	void convert(Int32& val) const
+	void convert(Int32&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int32");
 	}
 
-	void convert(Int64& val) const
+	void convert(Int64&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int64");
 	}
 
-	void convert(UInt8& val) const
+	void convert(UInt8&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt8");
 	}
 
-	void convert(UInt16& val) const
+	void convert(UInt16&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt16");
 	}
 	
-	void convert(UInt32& val) const
+	void convert(UInt32&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt32");
 	}
 
-	void convert(UInt64& val) const
+	void convert(UInt64&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt64");
 	}
 
-	void convert(bool& val) const
+	void convert(bool&) const
 	{
 		throw BadCastException("Cannot cast Struct type to bool");
 	}
 
-	void convert(float& val) const
+	void convert(float&) const
 	{
 		throw BadCastException("Cannot cast Struct type to float");
 	}
 
-	void convert(double& val) const
+	void convert(double&) const
 	{
 		throw BadCastException("Cannot cast Struct type to double");
 	}
 
-	void convert(char& val) const
+	void convert(char&) const
 	{
 		throw BadCastException("Cannot cast Struct type to char");
 	}
@@ -301,18 +304,18 @@ public:
 		if (!_val.empty())
 		{
 			Var key(it->first);
-			appendJSONKey(val, key);
+			Impl::appendJSONKey(val, key);
 			val.append(" : ");
-			appendJSONValue(val, it->second);
+			Impl::appendJSONValue(val, it->second);
 			++it;
 		}
 		for (; it != itEnd; ++it)
 		{
 			val.append(", ");
 			Var key(it->first);
-			appendJSONKey(val, key);
+			Impl::appendJSONKey(val, key);
 			val.append(" : ");
-			appendJSONValue(val, it->second);
+			Impl::appendJSONValue(val, it->second);
 		}
 		val.append(" }");
 	}
@@ -371,6 +374,11 @@ public:
 	{
 		return false;
 	}
+	
+	std::size_t size() const
+	{
+		return _val.size();
+	}
 
 	Var& operator [] (const std::string& name)
 	{
@@ -404,62 +412,62 @@ public:
 		return typeid(Struct<int>);
 	}
 
-	void convert(Int8& val) const
+	void convert(Int8&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int8");
 	}
 
-	void convert(Int16& val) const
+	void convert(Int16&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int16");
 	}
 	
-	void convert(Int32& val) const
+	void convert(Int32&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int32");
 	}
 
-	void convert(Int64& val) const
+	void convert(Int64&) const
 	{
 		throw BadCastException("Cannot cast Struct type to Int64");
 	}
 
-	void convert(UInt8& val) const
+	void convert(UInt8&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt8");
 	}
 
-	void convert(UInt16& val) const
+	void convert(UInt16&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt16");
 	}
 	
-	void convert(UInt32& val) const
+	void convert(UInt32&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt32");
 	}
 
-	void convert(UInt64& val) const
+	void convert(UInt64&) const
 	{
 		throw BadCastException("Cannot cast Struct type to UInt64");
 	}
 
-	void convert(bool& val) const
+	void convert(bool&) const
 	{
 		throw BadCastException("Cannot cast Struct type to bool");
 	}
 
-	void convert(float& val) const
+	void convert(float&) const
 	{
 		throw BadCastException("Cannot cast Struct type to float");
 	}
 
-	void convert(double& val) const
+	void convert(double&) const
 	{
 		throw BadCastException("Cannot cast Struct type to double");
 	}
 
-	void convert(char& val) const
+	void convert(char&) const
 	{
 		throw BadCastException("Cannot cast Struct type to char");
 	}
@@ -472,18 +480,18 @@ public:
 		if (!_val.empty())
 		{
 			Var key(it->first);
-			appendJSONKey(val, key);
+			Impl::appendJSONKey(val, key);
 			val.append(" : ");
-			appendJSONValue(val, it->second);
+			Impl::appendJSONValue(val, it->second);
 			++it;
 		}
 		for (; it != itEnd; ++it)
 		{
 			val.append(", ");
 			Var key(it->first);
-			appendJSONKey(val, key);
+			Impl::appendJSONKey(val, key);
 			val.append(" : ");
-			appendJSONValue(val, it->second);
+			Impl::appendJSONValue(val, it->second);
 		}
 		val.append(" }");	
 	}
@@ -543,6 +551,11 @@ public:
 		return false;
 	}
 
+	std::size_t size() const
+	{
+		return _val.size();
+	}
+
 	Var& operator [] (int name)
 	{
 		return _val[name];
@@ -561,7 +574,6 @@ private:
 } // namespace Dynamic
 
 
-//@ deprecated
 typedef Dynamic::Struct<std::string> DynamicStruct;
 
 
