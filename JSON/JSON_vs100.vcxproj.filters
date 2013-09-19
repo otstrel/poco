@@ -39,14 +39,13 @@
     <ClInclude Include="include\Poco\JSON\TemplateCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="include\Poco\JSON\Schema.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Poco\JSON\PrintHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Poco\JSON\ParseHandler.h">
->>>>>>> develop
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,14 +77,13 @@
     <ClCompile Include="src\TemplateCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="src\Schema.cpp">
-=======
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\PrintHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ParseHandler.cpp">
->>>>>>> develop
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
